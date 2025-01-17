@@ -1,0 +1,8 @@
+langchain
+langchain_groq
+pandas
+numpy
+streamlit
+python-dotenv
+ultralytics
+opencv-python
