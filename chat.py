@@ -1,3 +1,4 @@
+# chat.py
 from langchain.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from langchain.chains import LLMChain
@@ -16,62 +17,59 @@ llm = ChatGroq(
     max_retries=2
 )
 
-class_info_dict= {
-    # Healthy Leaves
-    "Apple leaf": "This represents a healthy apple leaf. Apple trees are deciduous and are widely grown for their delicious fruits.",
-    "Bell_pepper leaf": "This represents a healthy bell pepper leaf. Bell peppers are a variety of Capsicum annuum and are grown for their fruits which are used in cooking.",
-    "Blueberry leaf": "This represents a healthy blueberry leaf. Blueberries are small shrubs that produce berries rich in antioxidants.",
-    "Cherry leaf": "This represents a healthy cherry leaf. Cherry trees produce small, round fruits that are usually red or black.",
-    "Corn leaf": "This represents a healthy corn leaf. Corn is an important cereal crop that is used for both human consumption and livestock feed.",
-    "Peach leaf": "This represents a healthy peach leaf. Peach trees produce sweet, juicy fruits and are grown in temperate climates.",
-    "Potato leaf": "This represents a healthy potato leaf. Potatoes are tuberous crops that are a staple food in many countries.",
-    "Raspberry leaf": "This represents a healthy raspberry leaf. Raspberry plants produce small, red or black berries that are rich in nutrients.",
-    "Soybean leaf": "This is a healthy soybean leaf. Soybeans are leguminous plants and a significant source of protein and oil.",
-    "Strawberry leaf": "This represents a healthy strawberry leaf. Strawberry plants are known for their sweet, red fruits.",
-    "Tomato leaf": "This represents a healthy tomato leaf. Tomato plants produce red or yellow fruits that are a key ingredient in many dishes.",
-    "Grape leaf": "Represents a healthy grape leaf. Grapes are grown for both eating and wine production.",
+class_info_dict = {
+    # Daun Sehat
+    "Apple leaf": "Ini merupakan daun apel yang sehat. Pohon apel adalah tanaman gugur yang banyak dibudidayakan untuk buahnya yang lezat.",
+    "Bell_pepper leaf": "Ini merupakan daun paprika yang sehat. Paprika adalah varietas Capsicum annuum yang dibudidayakan untuk buahnya yang digunakan dalam masakan.",
+    "Blueberry leaf": "Ini merupakan daun blueberry yang sehat. Blueberry adalah semak kecil yang menghasilkan buah kaya antioksidan.",
+    "Cherry leaf": "Ini merupakan daun ceri yang sehat. Pohon ceri menghasilkan buah kecil berbentuk bulat yang biasanya berwarna merah atau hitam.",
+    "Corn leaf": "Ini merupakan daun jagung yang sehat. Jagung adalah tanaman serealia penting yang digunakan untuk konsumsi manusia maupun pakan ternak.",
+    "Peach leaf": "Ini merupakan daun persik yang sehat. Pohon persik menghasilkan buah manis dan berair yang dibudidayakan di iklim sedang.",
+    "Potato leaf": "Ini merupakan daun kentang yang sehat. Kentang adalah tanaman umbi yang menjadi makanan pokok di banyak negara.",
+    "Raspberry leaf": "Ini merupakan daun raspberry yang sehat. Tanaman raspberry menghasilkan buah kecil berwarna merah atau hitam yang kaya nutrisi.",
+    "Soybean leaf": "Ini merupakan daun kedelai yang sehat. Kedelai adalah tanaman legum dan sumber protein serta minyak yang penting.",
+    "Strawberry leaf": "Ini merupakan daun stroberi yang sehat. Tanaman stroberi dikenal dengan buahnya yang manis dan berwarna merah.",
+    "Tomato leaf": "Ini merupakan daun tomat yang sehat. Tanaman tomat menghasilkan buah merah atau kuning yang merupakan bahan penting dalam banyak masakan.",
+    "Grape leaf": "Ini merupakan daun anggur yang sehat. Anggur dibudidayakan untuk dikonsumsi langsung maupun untuk produksi anggur.",
 
-    # Diseased Leaves
-    "Apple Scab Leaf": "Apple scab is a disease caused by the fungus Venturia inaequalis. It creates dark, scab-like lesions on leaves.",
-    "Apple rust leaf": "Apple rust is caused by various types of fungi and results in yellow-orange spots on leaves.",
-    "Bell_pepper leaf spot": "This is a fungal or bacterial disease that causes small, dark spots on bell pepper leaves.",
-    "Corn Gray leaf spot": "Caused by the fungus Cercospora zeae-maydis, it results in rectangular gray spots on corn leaves.",
-    "Corn leaf blight": "This is caused by the fungus Helminthosporium maydis and leads to long grayish streaks on corn leaves.",
-    "Corn rust leaf": "This disease is caused by the fungus Puccinia sorghi and leads to rust-like spots on corn leaves.",
-    "Potato leaf early blight": "Caused by the fungus Alternaria solani, it results in dark spots on potato leaves.",
-    "Potato leaf late blight": "This is caused by the oomycete Phytophthora infestans and can lead to large, dark lesions on potato leaves.",
-    "Squash Powdery mildew leaf": "This disease is characterized by white powdery spots and is caused by various species of fungi.",
-    "Tomato Early blight leaf": "This is caused by the fungus Alternaria solani and leads to dark spots on tomato leaves.",
-    "Tomato Septoria leaf spot": "Caused by the fungus Septoria lycopersici, it results in small, dark spots with light centers on tomato leaves.",
-    "Tomato leaf bacterial spot": "This is caused by bacteria and results in small, necrotic spots on tomato leaves.",
-    "Tomato leaf late blight": "Similar to potato late blight, this is caused by Phytophthora infestans.",
-    "Tomato leaf mosaic virus": "This viral disease leads to distorted and mottled leaves.",
-    "Tomato leaf yellow virus": "A viral disease that results in yellowing and curling of tomato leaves.",
-    "Tomato mold leaf": "This could be caused by various types of mold fungi and results in a fuzzy growth on tomato leaves.",
-    "Tomato two spotted spider mites leaf": "This is an infestation rather than a disease, caused by the two-spotted spider mite. It results in stippling and discoloration of leaves.",
-    "Grape leaf black rot": "Caused by the fungus Guignardia bidwellii, it leads to black spots on grape leaves."
+    # Daun Penyakit
+    "Apple Scab Leaf": "Apple scab adalah penyakit yang disebabkan oleh jamur Venturia inaequalis. Penyakit ini menghasilkan lesi gelap seperti kerak pada daun.",
+    "Apple rust leaf": "Apple rust disebabkan oleh berbagai jenis jamur dan menghasilkan bercak berwarna kuning-oranye pada daun.",
+    "Bell_pepper leaf spot": "Ini adalah penyakit jamur atau bakteri yang menyebabkan munculnya bercak kecil gelap pada daun paprika.",
+    "Corn Gray leaf spot": "Disebabkan oleh jamur Cercospora zeae-maydis, penyakit ini menghasilkan bercak abu-abu berbentuk persegi panjang pada daun jagung.",
+    "Corn leaf blight": "Disebabkan oleh jamur Helminthosporium maydis, penyakit ini menyebabkan garis-garis abu-abu panjang pada daun jagung.",
+    "Corn rust leaf": "Penyakit ini disebabkan oleh jamur Puccinia sorghi dan menghasilkan bercak yang mirip karat pada daun jagung.",
+    "Potato leaf early blight": "Disebabkan oleh jamur Alternaria solani, penyakit ini menghasilkan bercak gelap pada daun kentang.",
+    "Potato leaf late blight": "Disebabkan oleh oomycete Phytophthora infestans, penyakit ini dapat menyebabkan lesi besar berwarna gelap pada daun kentang.",
+    "Squash Powdery mildew leaf": "Penyakit ini ditandai dengan munculnya bercak putih seperti bedak dan disebabkan oleh berbagai spesies jamur.",
+    "Tomato Early blight leaf": "Disebabkan oleh jamur Alternaria solani, penyakit ini menghasilkan bercak gelap pada daun tomat.",
+    "Tomato Septoria leaf spot": "Disebabkan oleh jamur Septoria lycopersici, penyakit ini menghasilkan bercak kecil gelap dengan pusat yang lebih terang pada daun tomat.",
+    "Tomato leaf bacterial spot": "Penyakit ini disebabkan oleh bakteri dan menghasilkan bercak nekrotik kecil pada daun tomat.",
+    "Tomato leaf late blight": "Serupa dengan late blight pada kentang, penyakit ini disebabkan oleh Phytophthora infestans pada tomat.",
+    "Tomato leaf mosaic virus": "Penyakit virus ini menyebabkan daun menjadi cacat dan berbintik-bintik.",
+    "Tomato leaf yellow virus": "Penyakit virus yang menyebabkan daun menguning dan melengkung.",
+    "Tomato mold leaf": "Penyakit ini bisa disebabkan oleh berbagai jenis jamur mold yang menghasilkan pertumbuhan berbulu pada daun tomat.",
+    "Tomato two spotted spider mites leaf": "Ini merupakan infestasi kutu laba-laba dua bintik, bukan penyakit, yang menyebabkan bintik dan perubahan warna pada daun.",
+    "Grape leaf black rot": "Disebabkan oleh jamur Guignardia bidwellii, penyakit ini menghasilkan bercak hitam pada daun anggur."
 }
 
-def chatbot(info, history, message):
+def generate_insight(info):
     prompt_template = """
-    You are a farming expert with a specialized knowledge in plant diseases. A farmer comes to you with the name of a specific plant disease
-    and some basic information about it. Your job is to guide the farmer.
+    Anda adalah seorang ahli patologi tanaman. Berdasarkan informasi penyakit yang terdeteksi berikut:
+    {info}
 
-    Information about the disease: {info},
+    Berikan insight yang komprehensif dengan struktur tiga bagian:
+    1. Deskripsi Penyakit: Jelaskan apa itu penyakit tersebut, gejalanya, dan dampaknya terhadap tanaman.
+    2. Pencegahan: Jelaskan metode efektif untuk mencegah munculnya atau penyebaran penyakit ini.
+    3. Pengobatan: Berikan rekomendasi opsi pengobatan praktis untuk mengelola atau menyembuhkan penyakit ini.
 
-    Chat history: {history},
-
-    User question: {message}
-
+    Silakan sampaikan jawaban Anda dengan jelas dan ringkas.
     """
-
     PROMPT = PromptTemplate(
         template=prompt_template,
-        input_variables= ['info', 'history', 'message']
+        input_variables=['info']
     )
 
     chain = LLMChain(llm=llm, prompt=PROMPT)
-
-    response = chain.predict(info = info, history = history, message = message)
-
+    response = chain.predict(info=info)
     return response

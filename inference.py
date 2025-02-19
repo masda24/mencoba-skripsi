@@ -21,7 +21,6 @@ def inference(image):
     return infer, classes, namesInfer
 
 
-# # Path to the image you want to test
 # image_path = r'D:\Temp Files\klasifikasi_penyakit_tanaman\Apple scab - mature infection on leaves.png'
 
 # # Run inference

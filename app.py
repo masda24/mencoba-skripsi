@@ -1,80 +1,36 @@
-import streamlit as st
+from fastapi import FastAPI, UploadFile, File
 import cv2
 import numpy as np
 import base64
-import io
-from inference import inference as inferenceYOLO
-from chat import chatbot, class_info_dict
 
-labels = []
-classes = dict()
+from chat import generate_insight, class_info_dict
+from inference import inference  # Menggunakan inference.py
 
-def detect(image):
-    inferencedImage, classesInDataset, classesInImage = inferenceYOLO(image)
-    imageClassesList = list(set(classesInImage))
-    label = ""
+app = FastAPI()
 
-    for x in range(len(imageClassesList)):
-        if x >= len(imageClassesList) - 1:
-            label = label + str(classesInDataset[imageClassesList[x]])
-        else:    
-            label = label + str(classesInDataset[imageClassesList[x]]) + ", "
-
-    global labels 
-    labels = imageClassesList
-    global classes 
-    classes = classesInDataset
+@app.post("/predict")
+async def analyze(file: UploadFile = File(...)):
+    contents = await file.read()
+    np_array = np.frombuffer(contents, np.uint8)
+    img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
     
-    return inferencedImage, label
-
-def chatfront(history, message):
+    detected_image, class_names, detected_classes = inference(img)
+    
     info = ""
-
-    for x in range(len(labels)):
-        name = str(classes[labels[x]])
-        infoCurrent = str(class_info_dict[name])
-
-        if x >= len(labels) - 1:
-            info = info + name + ":" + infoCurrent
-        else:
-            info = info + name + ":" + infoCurrent + ", "
-
-    response = chatbot(info, history, message)
-
-    return response
-
-def main():
-    st.title('Image Detection and Chatbot')
-
-    camera_input = st.camera_input("Capture an image")
-
-    if camera_input is not None:
-        img_bytes = camera_input.getvalue()
-        img_array = np.frombuffer(img_bytes, dtype=np.uint8)
-
-        img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
-
-        detected_image, label = detect(img)
-
-        _, img_encoded = cv2.imencode('.jpg', detected_image)
-        image_as_text = base64.b64encode(img_encoded).decode('utf-8')
-
-        st.image(detected_image, channels="BGR", caption="Inferred Image")
-        st.write(f"Detected Label: {label}")
-
-    st.subheader("Chat with the bot")
-
-    if 'history' not in st.session_state:
-        st.session_state.history = []
-
-    user_message = st.text_input("Your message")
-
-    if user_message:
-        bot_response = chatfront(st.session_state.history, user_message)
-        st.session_state.history.append(f"User: {user_message}")
-        st.session_state.history.append(f"Bot: {bot_response}")
-
-        st.write(f"**Bot Response:** {bot_response}")
-
-if __name__ == "__main__":
-    main()
+    for i, class_id in enumerate(detected_classes):
+        disease_name = class_names.get(int(class_id), "Unknown Disease")
+        disease_info = class_info_dict.get(disease_name, "No info available")
+        info += f"{disease_name}: {disease_info}"
+        if i < len(detected_classes) - 1:
+            info += ", "
+    
+    insight = generate_insight(info)
+    
+    _, buffer = cv2.imencode('.jpg', detected_image)
+    image_base64 = base64.b64encode(buffer).decode('utf-8')
+    
+    return {
+        "detected_label": [class_names.get(int(cls), "Unknown") for cls in detected_classes],
+        "insight": insight,
+        "inferenced_image": image_base64
+    }

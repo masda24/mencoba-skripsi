@@ -6,3 +6,6 @@ streamlit
 python-dotenv
 ultralytics
 opencv-python
+python-multipart
+uvicorn
+fastapi
