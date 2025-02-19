@@ -8,5 +8,5 @@ ultralytics
 opencv-python
 python-multipart
 uvicorn
-fastapi
+flask
 opencv-python-headless
