@@ -13,27 +13,27 @@ PRODUCT_IMAGE_FOLDER = os.path.join(os.getcwd(), "product image")
 
 # Mapping penyakit ke rekomendasi produk (nama produk harus persis sesuai dengan key di product_info)
 disease_product_map = {
-    "Apple Scab Leaf": ["Dithane M-45", "Score 250 EC"],
-    "Apple rust leaf": ["Score 250 EC", "Amistar Top"],
-    "Bell_pepper leaf spot": ["Dithane M-45", "Bordeaux-Mixture_20wp"],
-    "Corn Gray leaf spot": ["Score 250 EC", "Amistar Top"],
-    "Corn leaf blight": ["Dithane M-45", "Tilt 250 EC"],
-    "Corn rust leaf": ["Score 250 EC", "Amistar Top"],
-    "Potato leaf early blight": ["Dithane M-45", "Score 250 EC"],
-    "Potato leaf late blight": ["Ridomil Gold 480 SC", "Dithane M-45"],
-    "Squash Powdery mildew leaf": ["Sulfur-80-1", "Bio Trichoderma"],
-    "Tomato Early blight leaf": ["Dithane M-45", "Score 250 EC"],
-    "Tomato Septoria leaf spot": ["Score 250 EC", "Amistar Top"],
-    "Tomato leaf bacterial spot": ["Bordeaux-Mixture_20wp", "actara-25wg"],
-    "Tomato leaf late blight": ["Ridomil Gold 480 SC", "Dithane M-45"],
-    "Tomato leaf mosaic virus": ["Decis 25 WG", "Bio Trichoderma"],
-    "Tomato leaf yellow virus": ["Decis 25 WG", "actara-25wg"],
-    "Tomato mold leaf": ["Dithane M-45", "Tilt 250 EC"],
-    "Tomato two spotted spider mites leaf": ["Abamectin 18 EC", "actara-25wg"],
-    "Grape leaf black rot": ["Bordeaux-Mixture_20wp", "Dithane M-45"],
-    "Antraknosa": ["Dithane M-45", "Score 250 EC"],
-    "Daun-bercak-cokelat": ["Bordeaux-Mixture_20wp", "Dithane M-45"],
-    "Gemini-virus": ["Decis 25 WG", "Bio Trichoderma"]
+    "Apple Scab Leaf": ["Dithane M-45"],
+    "Apple rust leaf": ["Score 250 EC"],
+    "Bell_pepper leaf spot": ["Dithane M-45"],
+    "Corn Gray leaf spot": ["Score 250 EC"],
+    "Corn leaf blight": ["Tilt 250 EC"],
+    "Corn rust leaf": ["Amistar Top"],
+    "Potato leaf early blight": ["Dithane M-45"],
+    "Potato leaf late blight": ["Ridomil Gold 480 SC"],
+    "Squash Powdery mildew leaf": ["Sulfur-80-1"],
+    "Tomato Early blight leaf": ["Dithane M-45"],
+    "Tomato Septoria leaf spot": ["Score 250 EC"],
+    "Tomato leaf bacterial spot": ["Bordeaux-Mixture_20wp"],
+    "Tomato leaf late blight": ["Ridomil Gold 480 SC"],
+    "Tomato leaf mosaic virus": ["Decis 25 WG"],
+    "Tomato leaf yellow virus": ["Decis 25 WG"],
+    "Tomato mold leaf": ["Dithane M-45"],
+    "Tomato two spotted spider mites leaf": ["Abamectin 18 EC"],
+    "Grape leaf black rot": ["Bordeaux-Mixture_20wp"],
+    "Antraknosa": ["Dithane M-45"],
+    "Daun-bercak-cokelat": ["Bordeaux-Mixture_20wp"],
+    "Gemini-virus": ["Decis 25 WG"]
 }
 
 # Detail masing-masing produk: nama file gambar dan instruksi penggunaan
