@@ -3,7 +3,6 @@ langchain_groq
 numpy
 python-dotenv
 ultralytics
-opencv-python
 python-multipart
 flask
 opencv-python-headless
