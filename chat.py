@@ -10,8 +10,8 @@ groq_api_key = os.getenv("GROQ_API_KEY")
 
 llm = ChatGroq(
     groq_api_key=groq_api_key,
-    model="mixtral-8x7b-32768",
-    temperature=0.3,
+    model="llama-3.3-70b-versatile",
+    temperature=0.5,
     max_tokens=None,
     timeout=None,
     max_retries=2
@@ -31,6 +31,7 @@ class_info_dict = {
     "Strawberry leaf": "Ini merupakan daun stroberi yang sehat. Tanaman stroberi dikenal dengan buahnya yang manis dan berwarna merah.",
     "Tomato leaf": "Ini merupakan daun tomat yang sehat. Tanaman tomat menghasilkan buah merah atau kuning yang merupakan bahan penting dalam banyak masakan.",
     "Grape leaf": "Ini merupakan daun anggur yang sehat. Anggur dibudidayakan untuk dikonsumsi langsung maupun untuk produksi anggur.",
+    "Chilli-healthy": "Ini merupakan daun cabai yang sehat. Tanaman cabai banyak dibudidayakan untuk buahnya yang pedas dan sering digunakan dalam masakan.",
 
     # Daun Penyakit
     "Apple Scab Leaf": "Apple scab adalah penyakit yang disebabkan oleh jamur Venturia inaequalis. Penyakit ini menghasilkan lesi gelap seperti kerak pada daun.",
@@ -50,20 +51,20 @@ class_info_dict = {
     "Tomato leaf yellow virus": "Penyakit virus yang menyebabkan daun menguning dan melengkung.",
     "Tomato mold leaf": "Penyakit ini bisa disebabkan oleh berbagai jenis jamur mold yang menghasilkan pertumbuhan berbulu pada daun tomat.",
     "Tomato two spotted spider mites leaf": "Ini merupakan infestasi kutu laba-laba dua bintik, bukan penyakit, yang menyebabkan bintik dan perubahan warna pada daun.",
-    "Grape leaf black rot": "Disebabkan oleh jamur Guignardia bidwellii, penyakit ini menghasilkan bercak hitam pada daun anggur."
+    "Grape leaf black rot": "Disebabkan oleh jamur Guignardia bidwellii, penyakit ini menghasilkan bercak hitam pada daun anggur.",
+    "Antraknosa": "Antraknosa adalah penyakit tanaman yang disebabkan oleh jamur Colletotrichum. Penyakit ini menghasilkan bercak gelap dan cekung pada daun, batang, serta buah.",
+    "Daun-bercak-cokelat": "Penyakit bercak cokelat pada daun disebabkan oleh infeksi jamur atau bakteri yang menyebabkan bercak berwarna cokelat dan kering.",
+    "Gemini-virus": "Gemini virus adalah kelompok virus yang menyerang berbagai tanaman, menyebabkan gejala seperti daun menguning, pertumbuhan terhambat, dan mosaik pada daun."
 }
 
-def generate_insight(info):
+def generate_deskripsi(info):
     prompt_template = """
     Anda adalah seorang ahli patologi tanaman. Berdasarkan informasi penyakit yang terdeteksi berikut:
     {info}
 
-    Berikan insight yang komprehensif dengan struktur tiga bagian:
-    1. Deskripsi Penyakit: Jelaskan apa itu penyakit tersebut, gejalanya, dan dampaknya terhadap tanaman.
-    2. Pencegahan: Jelaskan metode efektif untuk mencegah munculnya atau penyebaran penyakit ini.
-    3. Pengobatan: Berikan rekomendasi opsi pengobatan praktis untuk mengelola atau menyembuhkan penyakit ini.
+    Berikan insight yang komprehensif dan langsung menjelaskan tanpa 'terima kasih' terkait Deskripsi Penyakitnya seperti Jelaskan apa itu penyakit tersebut, gejalanya, dan dampaknya terhadap tanaman
 
-    Silakan sampaikan jawaban Anda dengan jelas dan ringkas.
+    Silakan sampaikan jawaban Anda dengan jelas, ringkas maksimal 1500 karakter dan mudah dipahamin orang awam.
     """
     PROMPT = PromptTemplate(
         template=prompt_template,
@@ -73,3 +74,45 @@ def generate_insight(info):
     chain = LLMChain(llm=llm, prompt=PROMPT)
     response = chain.predict(info=info)
     return response
+
+def generate_pencegahan(info):
+    prompt_template = """
+    Anda adalah seorang ahli patologi tanaman. Berdasarkan informasi penyakit yang terdeteksi berikut:
+    {info}
+
+    Berikan insight yang komprehensif dan langsung menjelaskan tanpa 'terima kasih' terkait pencegahan Penyakitnya seperti Jelaskan metode efektif untuk mencegah munculnya atau penyebaran penyakit ini dalam bentuk LIST.
+    Jelaskan metode efektif untuk mencegah munculnya atau penyebaran penyakit ini dengan menyebutkan **maksimal 3 point terpenting**.
+
+
+    Silakan sampaikan jawaban Anda dengan jelas, ringkas dan mudah dipahamin orang awam.
+    """
+    PROMPT = PromptTemplate(
+        template=prompt_template,
+        input_variables=['info']
+    )
+
+    chain = LLMChain(llm=llm, prompt=PROMPT)
+    response = chain.predict(info=info)
+    return response
+
+def generate_penanganan(info):
+    prompt_template = """
+    Anda adalah seorang ahli patologi tanaman. Berdasarkan informasi penyakit yang terdeteksi berikut:
+    {info}
+
+    Berikan insight yang komprehensif dan langsung menjelaskan tanpa 'terima kasih' terkait Penanganan Penyakitnya.
+    Berikan rekomendasi opsi pengobatan praktis untuk mengelola atau menyembuhkan penyakit ini dalam bentuk LIST.
+    Selain itu, tentukan dan cantumkan parameter usia tanaman yang relevan untuk penanganan, misalnya dengan:
+      - Menentukan apakah tanaman berada pada fase awal, pertengahan, atau fase akhir pertumbuhan.
+      - Memberikan opsi penanganan yang sesuai berdasarkan rentang usia yang Anda anggap optimal.
+    Pastikan untuk menyebutkan **maksimal 3 point terpenting** sebagai rekomendasi penanganan.
+    Silakan sampaikan jawaban Anda dengan jelas, ringkas, dan mudah dipahami oleh orang awam.
+    """
+    PROMPT = PromptTemplate(
+        template=prompt_template,
+        input_variables=['info']
+    )
+    chain = LLMChain(llm=llm, prompt=PROMPT)
+    response = chain.predict(info=info)
+    return response
+
