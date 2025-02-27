@@ -81,7 +81,7 @@ def generate_pencegahan(info):
     {info}
 
     Berikan insight yang komprehensif dan langsung menjelaskan tanpa 'terima kasih' terkait pencegahan Penyakitnya seperti Jelaskan metode efektif untuk mencegah munculnya atau penyebaran penyakit ini dalam bentuk LIST.
-    Jelaskan metode efektif untuk mencegah munculnya atau penyebaran penyakit ini dengan menyebutkan **maksimal 3 point terpenting**.
+    Jelaskan metode efektif untuk mencegah munculnya atau penyebaran penyakit ini dengan menyebutkan maksimal 3 point terpenting tanpa memberikan tanda simbol bintang / **.
 
 
     Silakan sampaikan jawaban Anda dengan jelas, ringkas dan mudah dipahamin orang awam.
