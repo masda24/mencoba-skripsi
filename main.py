@@ -7,6 +7,7 @@ import base64
 from inference import inference 
 from chat import generate_deskripsi, generate_pencegahan, generate_penanganan, class_info_dict
 import os
+# from flask.responses import jsonify
 
 # Folder tempat gambar produk disimpan
 PRODUCT_IMAGE_FOLDER = os.path.join(os.getcwd(), "product image")
@@ -108,10 +109,9 @@ def analyze():
             return jsonify({"error": "Failed to process detected image"}), 500
 
         info = ""
-        for i, class_id in enumerate(detected_classes):
-            disease_name = class_names.get(int(class_id), "Unknown Disease")
-            disease_info = class_info_dict.get(disease_name, "No info available")
-            info += f"{disease_name}: {disease_info}"
+        for i, class_name in enumerate(detected_classes):  # Langsung gunakan class_name dari inference
+            disease_info = class_info_dict.get(class_name, "No info available")
+            info += f"{class_name}: {disease_info}"
             if i < len(detected_classes) - 1:
                 info += ", "
         
@@ -121,11 +121,10 @@ def analyze():
         
         # Buat rekomendasi produk untuk penyakit yang terdeteksi
         recommendations = {}
-        for class_id in detected_classes:
-            disease_name = class_names.get(int(class_id), "Unknown Disease")
-            if disease_name in disease_product_map:
+        for class_name in detected_classes:
+            if class_name in disease_product_map:
                 products = []
-                for prod_name in disease_product_map[disease_name]:
+                for prod_name in disease_product_map[class_name]:
                     prod_details = product_info.get(prod_name)
                     if prod_details:
                         image_path = os.path.join(PRODUCT_IMAGE_FOLDER, prod_details["image"])
@@ -142,14 +141,14 @@ def analyze():
                             "usage_instructions": prod_details["usage"],
                             "image_base64": prod_image
                         })
-                recommendations[disease_name] = products
+                recommendations[class_name] = products
         
         # Encode hasil inferensi gambar
         _, buffer = cv2.imencode('.jpg', detected_image)
         image_base64 = base64.b64encode(buffer).decode('utf-8')
         
         return jsonify({
-            "detected_label": [class_names.get(int(cls), "Unknown") for cls in detected_classes],
+            "detected_label": detected_classes,  # Menggunakan nama kelas yang sudah dipetakan di inference.py
             "deskripsi": deskripsi,
             "pencegahan": pencegahan,
             "penanganan": penanganan,
