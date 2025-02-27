@@ -13,27 +13,27 @@ PRODUCT_IMAGE_FOLDER = os.path.join(os.getcwd(), "product image")
 
 # Mapping penyakit ke rekomendasi produk (nama produk harus persis sesuai dengan key di product_info)
 disease_product_map = {
-    "Apple Scab Leaf": ["Dithane M-45"],
-    "Apple rust leaf": ["Score 250 EC"],
-    "Bell_pepper leaf spot": ["Dithane M-45"],
-    "Corn Gray leaf spot": ["Score 250 EC"],
-    "Corn leaf blight": ["Tilt 250 EC"],
-    "Corn rust leaf": ["Amistar Top"],
-    "Potato leaf early blight": ["Dithane M-45"],
-    "Potato leaf late blight": ["Ridomil Gold 480 SC"],
-    "Squash Powdery mildew leaf": ["Sulfur-80-1"],
-    "Tomato Early blight leaf": ["Dithane M-45"],
-    "Tomato Septoria leaf spot": ["Score 250 EC"],
-    "Tomato leaf bacterial spot": ["Bordeaux-Mixture_20wp"],
-    "Tomato leaf late blight": ["Ridomil Gold 480 SC"],
-    "Tomato leaf mosaic virus": ["Decis 25 WG"],
-    "Tomato leaf yellow virus": ["Decis 25 WG"],
-    "Tomato mold leaf": ["Dithane M-45"],
-    "Tomato two spotted spider mites leaf": ["Abamectin 18 EC"],
-    "Grape leaf black rot": ["Bordeaux-Mixture_20wp"],
-    "Antraknosa": ["Dithane M-45"],
-    "Daun-bercak-cokelat": ["Bordeaux-Mixture_20wp"],
-    "Gemini-virus": ["Decis 25 WG"]
+    "Apple Scab Leaf": ["Dithane M-45", "Score 250 EC"],
+    "Apple rust leaf": ["Score 250 EC", "Amistar Top"],
+    "Bell_pepper leaf spot": ["Dithane M-45", "Bordeaux-Mixture_20wp"],
+    "Corn Gray leaf spot": ["Score 250 EC", "Amistar Top"],
+    "Corn leaf blight": ["Dithane M-45", "Tilt 250 EC"],
+    "Corn rust leaf": ["Score 250 EC", "Amistar Top"],
+    "Potato leaf early blight": ["Dithane M-45", "Score 250 EC"],
+    "Potato leaf late blight": ["Ridomil Gold 480 SC", "Dithane M-45"],
+    "Squash Powdery mildew leaf": ["Sulfur-80-1", "Bio Trichoderma"],
+    "Tomato Early blight leaf": ["Dithane M-45", "Score 250 EC"],
+    "Tomato Septoria leaf spot": ["Score 250 EC", "Amistar Top"],
+    "Tomato leaf bacterial spot": ["Bordeaux-Mixture_20wp", "actara-25wg"],
+    "Tomato leaf late blight": ["Ridomil Gold 480 SC", "Dithane M-45"],
+    "Tomato leaf mosaic virus": ["Decis 25 WG", "Bio Trichoderma"],
+    "Tomato leaf yellow virus": ["Decis 25 WG", "actara-25wg"],
+    "Tomato mold leaf": ["Dithane M-45", "Tilt 250 EC"],
+    "Tomato two spotted spider mites leaf": ["Abamectin 18 EC", "actara-25wg"],
+    "Grape leaf black rot": ["Bordeaux-Mixture_20wp", "Dithane M-45"],
+    "Antraknosa": ["Dithane M-45", "Score 250 EC"],
+    "Daun-bercak-cokelat": ["Bordeaux-Mixture_20wp", "Dithane M-45"],
+    "Gemini-virus": ["Decis 25 WG", "Bio Trichoderma"]
 }
 
 # Detail masing-masing produk: nama file gambar dan instruksi penggunaan
@@ -84,15 +84,6 @@ product_info = {
     }
 }
 
-def load_image_as_base64(filename):
-    try:
-        image_path = os.path.join(PRODUCT_IMAGE_FOLDER, filename)
-        with open(image_path, "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
-        return encoded_string
-    except Exception as e:
-        return None
-
 app = Flask(__name__)
 os.environ["FLASK_RUN_EXTRA_FILES"] = "D:\\Skripsi Gaming"
 
@@ -106,10 +97,16 @@ def analyze():
         contents = file.read()
         np_array = np.frombuffer(contents, np.uint8)
         img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
+
+        if img is None:
+            return jsonify({"error": "Invalid image format"}), 400
         
         # Jalankan inferensi
         detected_image, class_names, detected_classes = inference(img)
         
+        if detected_image is None:
+            return jsonify({"error": "Failed to process detected image"}), 500
+
         info = ""
         for i, class_id in enumerate(detected_classes):
             disease_name = class_names.get(int(class_id), "Unknown Disease")
@@ -131,7 +128,15 @@ def analyze():
                 for prod_name in disease_product_map[disease_name]:
                     prod_details = product_info.get(prod_name)
                     if prod_details:
-                        prod_image = load_image_as_base64(prod_details["image"])
+                        image_path = os.path.join(PRODUCT_IMAGE_FOLDER, prod_details["image"])
+                        prod_image_array = cv2.imread(image_path)
+                        
+                        if prod_image_array is None:
+                            return jsonify({"error": f"Failed to load image for {prod_name}"}), 500
+                        
+                        _, buffer = cv2.imencode('.jpg', prod_image_array)
+                        prod_image = base64.b64encode(buffer).decode('utf-8')
+                        
                         products.append({
                             "product_name": prod_name,
                             "usage_instructions": prod_details["usage"],
@@ -154,6 +159,7 @@ def analyze():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
