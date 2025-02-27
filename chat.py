@@ -20,7 +20,7 @@ llm = ChatGroq(
 class_info_dict = {
     # Daun Sehat
     "Apple leaf": "Ini merupakan daun apel yang sehat. Pohon apel adalah tanaman gugur yang banyak dibudidayakan untuk buahnya yang lezat.",
-    "Bell_pepper leaf": "Ini merupakan daun paprika yang sehat. Paprika adalah varietas Capsicum annuum yang dibudidayakan untuk buahnya yang digunakan dalam masakan.",
+    "Healthy Chili Leaf": "Ini merupakan daun cabai yang sehat. Cabai adalah varietas Capsicum annuum yang dibudidayakan untuk buahnya yang digunakan dalam masakan.",
     "Blueberry leaf": "Ini merupakan daun blueberry yang sehat. Blueberry adalah semak kecil yang menghasilkan buah kaya antioksidan.",
     "Cherry leaf": "Ini merupakan daun ceri yang sehat. Pohon ceri menghasilkan buah kecil berbentuk bulat yang biasanya berwarna merah atau hitam.",
     "Corn leaf": "Ini merupakan daun jagung yang sehat. Jagung adalah tanaman serealia penting yang digunakan untuk konsumsi manusia maupun pakan ternak.",
@@ -31,12 +31,11 @@ class_info_dict = {
     "Strawberry leaf": "Ini merupakan daun stroberi yang sehat. Tanaman stroberi dikenal dengan buahnya yang manis dan berwarna merah.",
     "Tomato leaf": "Ini merupakan daun tomat yang sehat. Tanaman tomat menghasilkan buah merah atau kuning yang merupakan bahan penting dalam banyak masakan.",
     "Grape leaf": "Ini merupakan daun anggur yang sehat. Anggur dibudidayakan untuk dikonsumsi langsung maupun untuk produksi anggur.",
-    "Chilli-healthy": "Ini merupakan daun cabai yang sehat. Tanaman cabai banyak dibudidayakan untuk buahnya yang pedas dan sering digunakan dalam masakan.",
 
     # Daun Penyakit
     "Apple Scab Leaf": "Apple scab adalah penyakit yang disebabkan oleh jamur Venturia inaequalis. Penyakit ini menghasilkan lesi gelap seperti kerak pada daun.",
     "Apple rust leaf": "Apple rust disebabkan oleh berbagai jenis jamur dan menghasilkan bercak berwarna kuning-oranye pada daun.",
-    "Bell_pepper leaf spot": "Ini adalah penyakit jamur atau bakteri yang menyebabkan munculnya bercak kecil gelap pada daun paprika.",
+    "Chili Leaf Spot": "Ini adalah penyakit jamur atau bakteri yang menyebabkan munculnya bercak kecil gelap pada daun cabai.",
     "Corn Gray leaf spot": "Disebabkan oleh jamur Cercospora zeae-maydis, penyakit ini menghasilkan bercak abu-abu berbentuk persegi panjang pada daun jagung.",
     "Corn leaf blight": "Disebabkan oleh jamur Helminthosporium maydis, penyakit ini menyebabkan garis-garis abu-abu panjang pada daun jagung.",
     "Corn rust leaf": "Penyakit ini disebabkan oleh jamur Puccinia sorghi dan menghasilkan bercak yang mirip karat pada daun jagung.",
@@ -52,10 +51,11 @@ class_info_dict = {
     "Tomato mold leaf": "Penyakit ini bisa disebabkan oleh berbagai jenis jamur mold yang menghasilkan pertumbuhan berbulu pada daun tomat.",
     "Tomato two spotted spider mites leaf": "Ini merupakan infestasi kutu laba-laba dua bintik, bukan penyakit, yang menyebabkan bintik dan perubahan warna pada daun.",
     "Grape leaf black rot": "Disebabkan oleh jamur Guignardia bidwellii, penyakit ini menghasilkan bercak hitam pada daun anggur.",
-    "Antraknosa": "Antraknosa adalah penyakit tanaman yang disebabkan oleh jamur Colletotrichum. Penyakit ini menghasilkan bercak gelap dan cekung pada daun, batang, serta buah.",
-    "Daun-bercak-cokelat": "Penyakit bercak cokelat pada daun disebabkan oleh infeksi jamur atau bakteri yang menyebabkan bercak berwarna cokelat dan kering.",
-    "Gemini-virus": "Gemini virus adalah kelompok virus yang menyerang berbagai tanaman, menyebabkan gejala seperti daun menguning, pertumbuhan terhambat, dan mosaik pada daun."
+    "Whitefly Chili Leaf": "Serangan Whitefly pada daun cabai dapat menyebabkan daun menguning dan tanaman menjadi lemah akibat serangannya.",
+    "Yellow Chili Leaf": "Daun cabai yang menguning dapat disebabkan oleh kekurangan nutrisi, serangan hama, atau penyakit.",
+    "Curly Chili Leaf": "Daun cabai yang mengeriting bisa menjadi tanda serangan hama thrips atau infeksi virus kuning.",
 }
+
 
 def generate_deskripsi(info):
     prompt_template = """
