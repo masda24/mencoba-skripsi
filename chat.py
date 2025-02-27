@@ -105,7 +105,7 @@ def generate_penanganan(info):
     Selain itu, tentukan dan cantumkan parameter usia tanaman yang relevan untuk penanganan, misalnya dengan:
       - Menentukan apakah tanaman berada pada fase awal, pertengahan, atau fase akhir pertumbuhan.
       - Memberikan opsi penanganan yang sesuai berdasarkan rentang usia yang Anda anggap optimal.
-    Pastikan untuk menyebutkan **maksimal 3 point terpenting** sebagai rekomendasi penanganan.
+    Pastikan untuk menyebutkan maksimal 3 point terpenting sebagai rekomendasi penanganan tanpa memberikan tanda simbol bintang / **..
     Silakan sampaikan jawaban Anda dengan jelas, ringkas, dan mudah dipahami oleh orang awam.
     """
     PROMPT = PromptTemplate(
