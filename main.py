@@ -32,9 +32,10 @@ disease_product_map = {
     "Tomato mold leaf": ["Dithane M-45", "Tilt 250 EC"],
     "Tomato two spotted spider mites leaf": ["Abamectin 18 EC", "actara-25wg"],
     "Grape leaf black rot": ["Bordeaux-Mixture_20wp", "Dithane M-45"],
-    "Antraknosa": ["Dithane M-45", "Score 250 EC"],
-    "Daun-bercak-cokelat": ["Bordeaux-Mixture_20wp", "Dithane M-45"],
-    "Gemini-virus": ["Decis 25 WG", "Bio Trichoderma"]
+    "Whitefly Chili Leaf": ["Dithane M-45", "Score 250 EC"],
+    "Chili Leaf Spot": ["Bordeaux-Mixture_20wp", "Dithane M-45"],
+    "Yellow Chili Leaf": ["Decis 25 WG", "Bio Trichoderma"],
+    "Curly Chili Leaf": ["Decis 25 WG", "Bio Trichoderma"]
 }
 
 # Detail masing-masing produk: nama file gambar dan instruksi penggunaan
