@@ -56,6 +56,26 @@ class_info_dict = {
     "Curly Chili Leaf": "Daun cabai yang mengeriting bisa menjadi tanda serangan hama thrips atau infeksi virus kuning.",
 }
 
+def chatbot(message):
+    prompt_template = """
+    You are a farming expert with a specialized knowledge in plant diseases. A farmer comes to you with the name of a specific plant disease
+    and some basic information about it. Your job is to guide the farmer with short and clear answers.
+
+
+    User question: {message}
+
+    """
+
+    PROMPT = PromptTemplate(
+        template=prompt_template,
+        input_variables= ['message']
+    )
+
+    chain = LLMChain(llm=llm, prompt=PROMPT)
+
+    response = chain.predict(message = message)
+
+    return response
 
 def generate_deskripsi(info):
     prompt_template = """

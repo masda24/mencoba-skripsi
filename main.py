@@ -7,6 +7,8 @@ import base64
 from inference import inference 
 from chat import generate_deskripsi, generate_pencegahan, generate_penanganan, class_info_dict
 import os
+from chat import chatbot
+
 # from flask.responses import jsonify
 
 # Folder tempat gambar produk disimpan
@@ -88,6 +90,38 @@ product_info = {
 
 app = Flask(__name__)
 os.environ["FLASK_RUN_EXTRA_FILES"] = "D:\\Skripsi Gaming"
+
+def chatfront(history, message):
+
+    info = ""
+
+    # for x in range(len(labels)):
+    #     name = str(classes[labels[x]])
+    #     infoCurrent = str(class_info_dict[name])
+
+    #     if x >= len(labels) - 1:
+    #         info = info + name + ":" + infoCurrent
+    #     else:
+    #         info = info + name + ":" + infoCurrent + ", "
+
+    response = chatbot(info, history, message)
+
+    return response
+
+@app.route('/chat', methods=["POST"])
+def chat():
+    if not request.json or 'message' not in request.json:
+        return jsonify({'error': 'No message provided'}), 400
+    
+    data = request.get_json()
+    print(data)
+
+    user_message = data['message']
+    # chat_history = data['chatHistory']
+    
+    botResponse = f"{chatbot(user_message)}"
+
+    return jsonify({'response': botResponse})
 
 @app.route("/predict", methods=["POST"])
 def analyze():
