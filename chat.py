@@ -58,24 +58,29 @@ class_info_dict = {
 
 def chatbot(message):
     prompt_template = """
-    You are a farming expert with a specialized knowledge in plant diseases. A farmer comes to you with the name of a specific plant disease
-    and some basic information about it. Your job is to guide the farmer with short and clear answers.
+    You are a helpful farming assistant specialized in plant health and disease detection.
 
+    Instructions:
+    - If the user asks about plants or plant diseases, answer with short and clear agricultural advice.
+    - If the user greets you (e.g., hello, hi), respond with a friendly greeting.
+    - If the user says goodbye, respond with a polite farewell.
+    - If the user says thank you or expresses gratitude, respond warmly and say you're happy to help.
+    - If the user asks something unrelated to plants (e.g., politics, weather, sports, tech, etc.), politely respond with:
+      "Maaf, saya hanya bisa membantu pertanyaan yang berkaitan dengan tanaman dan penyakit daun."
 
-    User question: {message}
-
+    User message: {message}
     """
 
     PROMPT = PromptTemplate(
         template=prompt_template,
-        input_variables= ['message']
+        input_variables=['message']
     )
 
     chain = LLMChain(llm=llm, prompt=PROMPT)
-
-    response = chain.predict(message = message)
+    response = chain.predict(message=message)
 
     return response
+
 
 def generate_deskripsi(info):
     prompt_template = """
